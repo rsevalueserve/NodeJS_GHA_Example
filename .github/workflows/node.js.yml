@@ -30,14 +30,17 @@ jobs:
 
     # Docker steps
     - name: Build Docker image
-      run: docker build -t my-node-app .
+      run: docker build -t node-app .
 
     - name: Run Docker container
-      run: docker run -d -p 3000:3000 --name myapp my-node-app
-
+      run: docker run -d -p 3000:3000 --name backend node-app
+      
+    - name: Check Docker container logs
+      run: docker logs myapp
+      
     # Test the application
     - name: Check if the container is running
-      run: docker ps | grep myapp
+      run: docker ps | grep backend
 
     - name: Wait for application to start
       run: sleep 10 # Adjust the timing as necessary
