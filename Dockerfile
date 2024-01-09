@@ -8,7 +8,11 @@ COPY package*.json ./
 RUN npm install
 # Copy app source code
 COPY . .
+
+# If you have a build step, for example using TypeScript
+RUN npm run build
+
 # Expose a port if your app requires it #
 EXPOSE 3000
 # Start the app
-CMD ["node", "app.js"]
+CMD ["node", "dist/app.js"]
