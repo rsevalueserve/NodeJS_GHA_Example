@@ -36,20 +36,19 @@ jobs:
       run: docker run -d -p 3000:3000 --name backend node-app
       
     - name: Check Docker container logs
-      run: docker logs backend
+      run: |
+        docker logs backend || true
       
     # Test the application
     - name: Check if the container is running
       run: docker ps | grep backend
-
-    - name: Wait for application to start
-      run: sleep 15 # Adjust the timing as necessary
+      
+    - name: Test API endpoint
+      run: curl --fail http://backend:3000/api/v1/hello-world
       
     - name: Test API endpoint
       run: docker exec backend curl --fail http://localhost:3000/api/v1/hello-world
       
-    - name: Test API endpoint
-      run: curl --fail http://backend:3000/api/v1/hello-world
 
     # Clean up
     - name: Stop and remove Docker container
