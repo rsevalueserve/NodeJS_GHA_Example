@@ -1,0 +1,290 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"DogResponse": {
+				"description": "Doggo API response type",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"age": {
+						"type": "string"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"age",
+					"image"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ErrorResponse": {
+				"description": "Error response type",
+				"properties": {
+					"error": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HelloWorldResponse": {
+				"description": "Hello World API response type",
+				"properties": {
+					"data": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookPostResponse": {
+				"description": "Post Book API response type",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookPostRequest": {
+				"description": "Post Book API request type",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					},
+					"editorial": {
+						"type": "string"
+					},
+					"pages": {
+						"type": "number",
+						"format": "double"
+					},
+					"year": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"author",
+					"editorial",
+					"pages",
+					"year"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Book": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					},
+					"editorial": {
+						"type": "string"
+					},
+					"pages": {
+						"type": "number",
+						"format": "double"
+					},
+					"year": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"author",
+					"editorial",
+					"pages",
+					"year"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookGetResponse": {
+				"description": "Get Book API response type",
+				"properties": {
+					"books": {
+						"items": {
+							"$ref": "#/components/schemas/Book"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"books"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "node-express-boilerplate",
+		"version": "1.0.0",
+		"description": "A boilerplate/starter project for quickly building APIs using Node.js, Express.",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Your Name ",
+			"email": "email@example.com"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/api/v1/dog": {
+			"get": {
+				"operationId": "GetDogResponse",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/DogResponse"
+										},
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/api/v1/hello-world": {
+			"get": {
+				"operationId": "GetHelloWorld",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/HelloWorldResponse"
+										},
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/api/v1/book": {
+			"post": {
+				"operationId": "PostORMBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/BookPostResponse"
+										},
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BookPostRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetORMBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/BookGetResponse"
+										},
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
