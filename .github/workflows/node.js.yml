@@ -1,0 +1,53 @@
+name: Node.js CI with Docker
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+
+    # Docker steps
+    - name: Build Docker image
+      run: docker build -t my-node-app .
+
+    - name: Run Docker container
+      run: docker run -d -p 3000:3000 --name myapp my-node-app
+
+    # Test the application
+    - name: Check if the container is running
+      run: docker ps | grep myapp
+
+    - name: Wait for application to start
+      run: sleep 10 # Adjust the timing as necessary
+
+    - name: Test API endpoint
+      run: curl --fail http://localhost:3000/api/v1/hello-world
+
+    # Clean up
+    - name: Stop and remove Docker container
+      if: always() # This ensures that the container is removed even if the test fails
+      run: |
+        docker stop myapp
+        docker rm myapp
