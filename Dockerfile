@@ -15,4 +15,4 @@ RUN npm run build
 # Expose a port if your app requires it #
 EXPOSE 3000
 # Start the app
-CMD ["node", "dist/app.js"]
+CMD ["node", "index.js"]
