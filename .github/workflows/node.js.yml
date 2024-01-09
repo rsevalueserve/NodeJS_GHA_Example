@@ -49,17 +49,13 @@ jobs:
     - name: Check if the container is running
       run: docker ps | grep backend
     
-      
     - name: Test API endpoint
       run: curl --fail http://localhost:3000/api/v1/hello-world
       
-    - name: Test API endpoint
-      run: docker exec backend curl --fail http://localhost:3000/api/v1/hello-world
-      
-
     # Clean up
     - name: Stop and remove Docker container
       if: always() # This ensures that the container is removed even if the test fails
       run: |
         docker stop backend
         docker rm backend
+
