@@ -43,10 +43,13 @@ jobs:
       run: docker ps | grep backend
 
     - name: Wait for application to start
-      run: sleep 10 # Adjust the timing as necessary
-
+      run: sleep 15 # Adjust the timing as necessary
+      
     - name: Test API endpoint
-      run: curl --fail http://localhost:3000/api/v1/hello-world
+      run: docker exec backend curl --fail http://localhost:3000/api/v1/hello-world
+      
+    - name: Test API endpoint
+      run: curl --fail http://backend:3000/api/v1/hello-world
 
     # Clean up
     - name: Stop and remove Docker container
