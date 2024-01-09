@@ -36,7 +36,7 @@ jobs:
       run: docker run -d -p 3000:3000 --name backend node-app
       
     - name: Check Docker container logs
-      run: docker logs myapp
+      run: docker logs backend
       
     # Test the application
     - name: Check if the container is running
